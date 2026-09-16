@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArcStatusCard, HomePipeline } from "@/components/home-live";
 import { StatusTag } from "@/components/status-tag";
 import { HEADLINE, LAYERS, latestLogPreview } from "@/lib/content";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   const latestLog = latestLogPreview();

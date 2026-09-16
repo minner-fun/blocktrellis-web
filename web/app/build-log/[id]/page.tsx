@@ -15,7 +15,7 @@ export async function generateMetadata({
   const { id } = await params;
   const entry = BUILD_LOG.find((e) => e.id === id);
   if (!entry) return { title: "Build Log" };
-  return { title: `${entry.n} — ${entry.title}` };
+  return { title: `${entry.n} — ${entry.title}`, alternates: { canonical: `/build-log/${id}/` } };
 }
 
 export default async function BuildLogEntryPage({

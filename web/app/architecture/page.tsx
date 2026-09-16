@@ -4,6 +4,7 @@ import { ArchitectureDiagram } from "./diagram";
 export const metadata: Metadata = {
   title: "Architecture",
   description: "How raw chain data becomes data products.",
+  alternates: { canonical: "/architecture/" },
 };
 
 export default function ArchitecturePage() {

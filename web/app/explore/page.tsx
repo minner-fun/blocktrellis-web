@@ -5,6 +5,7 @@ import { Explorer } from "./explorer";
 export const metadata: Metadata = {
   title: "Explore",
   description: "Lightweight explorer for Arc Mainnet blocks, transactions and tokens.",
+  alternates: { canonical: "/explore/" },
 };
 
 export default function ExplorePage() {

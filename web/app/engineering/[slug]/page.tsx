@@ -15,7 +15,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const article = articleBySlug("Engineering", slug);
   if (!article) return { title: "Engineering" };
-  return { title: article.title, description: article.lead };
+  return {
+    title: article.title,
+    description: article.lead,
+    alternates: { canonical: `/engineering/${slug}/` },
+  };
 }
 
 export default async function EngineeringArticlePage({

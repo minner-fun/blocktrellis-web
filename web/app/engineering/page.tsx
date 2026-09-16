@@ -6,6 +6,7 @@ import { ENGINEERING } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Engineering",
   description: "Reusable engineering methodology for blockchain data pipelines.",
+  alternates: { canonical: "/engineering/" },
 };
 
 export default function EngineeringPage() {

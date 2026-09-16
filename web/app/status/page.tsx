@@ -4,6 +4,7 @@ import { StatusBoard } from "./status-board";
 export const metadata: Metadata = {
   title: "Network & Data Status",
   description: "Indexer health, lag and pipeline status for Arc Mainnet.",
+  alternates: { canonical: "/status/" },
 };
 
 export default function StatusPage() {

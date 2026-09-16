@@ -33,6 +33,11 @@ export const metadata: Metadata = {
     siteName: "ChainForge",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "ChainForge",
+    description: "From raw blockchain data to structured onchain intelligence.",
+  },
 };
 
 export default function RootLayout({

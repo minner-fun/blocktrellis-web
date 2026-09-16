@@ -16,7 +16,6 @@ const STATIC_ROUTES = [
   "/docs/",
   "/engineering/",
   "/explore/",
-  "/product/",
   "/research/",
   "/status/",
 ];

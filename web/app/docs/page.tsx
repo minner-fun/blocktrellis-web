@@ -4,6 +4,7 @@ import { DocsShell } from "./docs-shell";
 export const metadata: Metadata = {
   title: "Docs",
   description: "Developer documentation for the ChainForge data platform.",
+  alternates: { canonical: "/docs/" },
 };
 
 export default function DocsPage() {

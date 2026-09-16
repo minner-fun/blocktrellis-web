@@ -17,7 +17,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const doc = DOCS[slug];
   if (!doc) return { title: "Docs" };
-  return { title: doc.title, description: doc.lead };
+  return { title: doc.title, description: doc.lead, alternates: { canonical: `/docs/${slug}/` } };
 }
 
 export default async function DocPage({

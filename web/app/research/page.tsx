@@ -6,6 +6,7 @@ import { RESEARCH } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Research",
   description: "Protocol research and blockchain data methodology.",
+  alternates: { canonical: "/research/" },
 };
 
 export default function ResearchPage() {

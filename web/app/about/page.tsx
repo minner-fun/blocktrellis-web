@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "ChainForge is an independent blockchain data engineering project, started in 2026 with Arc Mainnet and built in public.",
+  alternates: { canonical: "/about/" },
 };
 
 export default function AboutPage() {
