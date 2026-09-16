@@ -7,6 +7,12 @@ chainforge.cn, www.chainforge.cn {
 	@www host www.chainforge.cn
 	redir @www https://chainforge.cn{uri} permanent
 
+	# /product is a leftover client-side-only redirect stub in the Next app
+	# (no server involved under static export). Redirect it here instead so
+	# non-JS crawlers and link-preview bots get a real 301, not a blank shell.
+	@product path /product /product/
+	redir @product / permanent
+
 	handle /_next/static/* {
 		root * /srv/chainforge
 		header Cache-Control "public, max-age=31536000, immutable"
