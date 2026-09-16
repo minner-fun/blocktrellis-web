@@ -1,0 +1,22 @@
+# Appended to ~/aurora/Caddyfile on us-2c2g (shared Caddy in aurora-web-1).
+# Requires /root/chainforge/site mounted at /srv/chainforge.
+
+chainforge.cn, www.chainforge.cn {
+	encode zstd gzip
+
+	@www host www.chainforge.cn
+	redir @www https://chainforge.cn{uri} permanent
+
+	handle /_next/static/* {
+		root * /srv/chainforge
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	handle {
+		root * /srv/chainforge
+		try_files {path} {path}/index.html /index.html
+		header Cache-Control "no-cache"
+		file_server
+	}
+}

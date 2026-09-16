@@ -5,3 +5,6 @@ Thumbs.db
 .env.*
 !.env.example
 .vercel
+chainforge-site.tar.gz
+deploy/Caddyfile.prod
+deploy/compose.override.yaml
