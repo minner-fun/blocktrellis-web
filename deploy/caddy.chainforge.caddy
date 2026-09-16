@@ -4,6 +4,22 @@
 chainforge.cn, www.chainforge.cn {
 	encode zstd gzip
 
+	# Site makes zero external network calls (the "live" numbers on the
+	# homepage are a client-side setInterval simulation, not a real fetch),
+	# so connect-src 'self' is safe. script-src/style-src need 'unsafe-inline'
+	# because static export ships Next's hydration payload as inline <script>
+	# tags and React renders inline style="" attributes — nonces aren't
+	# available to a static file server, so this is the practical ceiling
+	# for this architecture, not a full XSS-proof policy.
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+	}
+
 	@www host www.chainforge.cn
 	redir @www https://chainforge.cn{uri} permanent
 

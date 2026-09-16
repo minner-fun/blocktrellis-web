@@ -40,6 +40,24 @@ export const metadata: Metadata = {
   },
 };
 
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "ChainForge",
+      url: "https://chainforge.cn",
+      logo: "https://chainforge.cn/logo.png",
+      sameAs: ["https://github.com/chainforge"],
+    },
+    {
+      "@type": "WebSite",
+      name: "ChainForge",
+      url: "https://chainforge.cn",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,6 +66,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${plexSans.variable} ${plexMono.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(JSON_LD).replace(/</g, "\\u003c"),
+          }}
+        />
         <IndexerProvider>
           <Header />
           {children}
