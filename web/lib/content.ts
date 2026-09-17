@@ -832,6 +832,22 @@ export const BUILD_LOG: LogEntry[] = [
     status: "Planned",
     body: null,
   },
+  {
+    id: "010",
+    n: "#010",
+    title: "Scoping the Real Build: Ethereum and Arc",
+    date: "2026-09-17",
+    status: "Published",
+    body: [
+      "No code today — a job posting for Allium's Blockchain Data Wizard, Analyst or Scientist role reframed the project's scope: two real chains instead of one.",
+      "Turning data scattered across a chain into something useful is the same job I've done for years, just moved on-chain — scraping and cleaning websites, now parsing protocol data straight off RPC.",
+      "Still three stages, described plainly: pull raw data from a node, decode key events against each protocol's ABI, normalize the result into tables an analyst or auditor can actually use.",
+      "Not started. The only decision made so far is scope: Ethereum Mainnet and Arc, nothing else, for now.",
+      "Every blockchain data job posting wants a dozen chains. Picking two on purpose, and writing that down, is harder than it sounds.",
+      "The distance between \"scraping websites\" and \"decoding a chain\" is smaller than it looks — same discipline, different source.",
+      "Start pulling raw blocks and transactions from an Ethereum node and an Arc node.",
+    ],
+  },
 ];
 
 export const ARCH_LAYERS = [
