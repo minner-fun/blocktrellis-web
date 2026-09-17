@@ -1,7 +1,7 @@
 # Appended to ~/aurora/Caddyfile on us-2c2g (shared Caddy in aurora-web-1).
-# Requires /root/chainforge/site mounted at /srv/chainforge.
+# Requires /root/blocktrellis/site mounted at /srv/blocktrellis.
 
-chainforge.cn, www.chainforge.cn {
+blocktrellis.com, www.blocktrellis.com {
 	encode zstd gzip
 
 	# Site makes zero external network calls (the "live" numbers on the
@@ -20,8 +20,8 @@ chainforge.cn, www.chainforge.cn {
 		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
 	}
 
-	@www host www.chainforge.cn
-	redir @www https://chainforge.cn{uri} permanent
+	@www host www.blocktrellis.com
+	redir @www https://blocktrellis.com{uri} permanent
 
 	# /product is a leftover client-side-only redirect stub in the Next app
 	# (no server involved under static export). Redirect it here instead so
@@ -30,13 +30,13 @@ chainforge.cn, www.chainforge.cn {
 	redir @product / permanent
 
 	handle /_next/static/* {
-		root * /srv/chainforge
+		root * /srv/blocktrellis
 		header Cache-Control "public, max-age=31536000, immutable"
 		file_server
 	}
 
 	handle {
-		root * /srv/chainforge
+		root * /srv/blocktrellis
 		header Cache-Control "no-cache"
 		try_files {path} {path}/index.html =404
 		file_server
@@ -45,7 +45,7 @@ chainforge.cn, www.chainforge.cn {
 	handle_errors {
 		@404 expression {http.error.status_code} == 404
 		rewrite @404 /404.html
-		root * /srv/chainforge
+		root * /srv/blocktrellis
 		file_server
 	}
 }

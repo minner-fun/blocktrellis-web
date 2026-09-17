@@ -6,6 +6,6 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root/web"
 npm ci
 npm run build
-ssh us-2c2g "mkdir -p /root/chainforge/site"
-tar czf - -C out . | ssh us-2c2g "tar xzf - -C /root/chainforge/site"
-echo "uploaded to us-2c2g:/root/chainforge/site"
+ssh us-2c2g "mkdir -p /root/blocktrellis/site"
+tar czf - -C out . | ssh us-2c2g "tar xzf - -C /root/blocktrellis/site"
+echo "uploaded to us-2c2g:/root/blocktrellis/site"
