@@ -700,15 +700,11 @@ export const ENGINEERING: Article[] = [
   },
 ];
 
-export const LOG_HEADINGS = [
-  "What I built",
-  "Why it matters",
-  "Architecture",
-  "Implementation",
-  "Problems encountered",
-  "What I learned",
-  "What's next",
-];
+export type LogInline = string | { text: string; href: string };
+
+export type LogBlock =
+  | { kind: "p"; content: LogInline[] }
+  | { kind: "img"; src: string; alt: string };
 
 export type LogEntry = {
   id: string;
@@ -716,7 +712,7 @@ export type LogEntry = {
   title: string;
   date: string;
   status: "Published" | "Building" | "Planned";
-  body: string[] | null;
+  body: LogBlock[] | null;
 };
 
 export const BUILD_LOG: LogEntry[] = [
@@ -727,13 +723,34 @@ export const BUILD_LOG: LogEntry[] = [
     date: "2026-09-17",
     status: "Published",
     body: [
-      "No code today — a job posting for Allium's Blockchain Data Wizard, Analyst or Scientist role reframed the project's scope: two real chains instead of one.",
-      "Turning data scattered across a chain into something useful is the same job I've done for years, just moved on-chain — scraping and cleaning websites, now parsing protocol data straight off RPC.",
-      "Still three stages, described plainly: pull raw data from a node, decode key events against each protocol's ABI, normalize the result into tables an analyst or auditor can actually use.",
-      "Not started. The only decision made so far is scope: Ethereum Mainnet and Arc, nothing else, for now.",
-      "Every blockchain data job posting wants a dozen chains. Picking two on purpose, and writing that down, is harder than it sounds.",
-      "The distance between \"scraping websites\" and \"decoding a chain\" is smaller than it looks — same discipline, different source.",
-      "Start pulling raw blocks and transactions from an Ethereum node and an Arc node.",
+      {
+        kind: "p",
+        content: [
+          "I found it — Allium's ",
+          {
+            text: "Blockchain Data Wizard, Analyst or Scientist",
+            href: "https://jobs.ashbyhq.com/allium/6ad02951-721e-48a6-8a95-95a9139393a9",
+          },
+          " posting.",
+        ],
+      },
+      { kind: "img", src: "/build-log/2026-09-17-job-posting.png", alt: "Job posting screenshot" },
+      {
+        kind: "p",
+        content: [
+          "I'm genuinely interested in this role. Taking data scattered across every corner of a blockchain and turning it into something useful is deeply satisfying work. It's remarkably close to what I've been doing for years: collecting data from websites, cleaning it, and loading it into a database. Now it's the same job, just moved on-chain — parsing each protocol's data straight off the blockchain.",
+        ],
+      },
+      {
+        kind: "p",
+        content: [
+          "I want to build something simple but structurally sound: a data platform that collects data from blockchain nodes, decodes the key events using each protocol's ABI, and turns the result into normalized data that's ready for auditing and for analysts to use.",
+        ],
+      },
+      {
+        kind: "p",
+        content: ["For now, I'm planning to start with two chains: Ethereum and Arc."],
+      },
     ],
   },
 ];

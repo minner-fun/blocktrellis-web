@@ -1,22 +1,60 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { StatusTag } from "@/components/status-tag";
-import { BUILD_LOG, LOG_HEADINGS, logById } from "@/lib/content";
+import { BUILD_LOG, logById, type LogInline } from "@/lib/content";
+
+function Inline({ segments }: { segments: LogInline[] }) {
+  return (
+    <>
+      {segments.map((seg, i) =>
+        typeof seg === "string" ? (
+          <span key={i}>{seg}</span>
+        ) : (
+          <a key={i} href={seg.href} target="_blank" rel="noopener noreferrer">
+            {seg.text}
+          </a>
+        ),
+      )}
+    </>
+  );
+}
+
+function Permalink({ id }: { id: string }) {
+  const [copied, setCopied] = useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={async () => {
+        const url = `https://blocktrellis.com/build-log/${id}`;
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          // clipboard API unavailable — link is still visible in the address bar
+        }
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+      style={{
+        fontSize: 13,
+        fontWeight: 600,
+        background: "transparent",
+        border: 0,
+        padding: 0,
+        cursor: "pointer",
+        color: "var(--color-accent)",
+      }}
+    >
+      {copied ? "Copied ✓" : "Copy permalink →"}
+    </button>
+  );
+}
 
 export function BuildLogView({ id }: { id: string }) {
   const router = useRouter();
   const open = logById(id);
-  const sections = LOG_HEADINGS.map((h, i) => {
-    const t = open.body
-      ? open.body[i]
-      : open.status === "Planned"
-        ? "Not yet written."
-        : "In progress — draft notes will be published with the release.";
-    const written = Boolean(open.body);
-    return { h, t, written };
-  });
 
   return (
     <main className="shell" style={{ paddingTop: 64, paddingBottom: 80 }}>
@@ -86,11 +124,7 @@ export function BuildLogView({ id }: { id: string }) {
           })}
           <div className="rule" />
         </div>
-        <article
-          data-stack-sticky="1"
-          className="panel"
-          style={{ padding: 28, position: "sticky", top: 80 }}
-        >
+        <article data-stack-sticky="1" className="panel" style={{ padding: 28, position: "sticky", top: 80 }}>
           <div
             style={{
               display: "flex",
@@ -109,36 +143,45 @@ export function BuildLogView({ id }: { id: string }) {
               fontSize: "clamp(24px,2.6vw,32px)",
               letterSpacing: "-0.015em",
               lineHeight: 1.1,
-              margin: "0 0 20px",
+              margin: "0 0 24px",
             }}
           >
             {open.title}
           </h2>
-          {sections.map((s) => (
-            <div
-              key={s.h}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "150px minmax(0,1fr)",
-                gap: 16,
-                padding: "12px 0",
-                borderTop: "1px solid var(--color-divider)",
-                fontSize: 14,
-                lineHeight: "22px",
-              }}
-            >
-              <span className="kicker-muted" style={{ paddingTop: 4 }}>
-                {s.h}
-              </span>
-              <span style={{ color: s.written ? "var(--color-text)" : "var(--color-neutral-600)" }}>
-                {s.t}
-              </span>
+          {open.body ? (
+            <div className="body-copy" style={{ display: "grid", gap: 20 }}>
+              {open.body.map((block, i) => {
+                if (block.kind === "img") {
+                  return (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={i}
+                      src={block.src}
+                      alt={block.alt}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        border: "1px solid var(--color-divider)",
+                      }}
+                    />
+                  );
+                }
+                return (
+                  <p key={i} style={{ margin: 0, color: "var(--color-text)" }}>
+                    <Inline segments={block.content} />
+                  </p>
+                );
+              })}
             </div>
-          ))}
-          <div style={{ marginTop: 8 }}>
-            <Link href={`/build-log/${open.id}`} style={{ fontSize: 13, fontWeight: 600 }}>
-              Permalink →
-            </Link>
+          ) : (
+            <p style={{ margin: 0, color: "var(--color-neutral-600)" }}>
+              {open.status === "Planned"
+                ? "Not yet written."
+                : "In progress — draft notes will be published with the release."}
+            </p>
+          )}
+          <div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--color-divider)" }}>
+            <Permalink id={open.id} />
           </div>
         </article>
       </div>
