@@ -1,9 +1,16 @@
-import { slugify } from "./status";
+import { slugify, type StatusKind } from "./status";
 
 export const HEADLINE = "From raw blockchain data to structured intelligence.";
 
+export type ChainInfo = { name: string; slug: "ethereum" | "arc"; status: StatusKind };
+
+export const CHAINS: ChainInfo[] = [
+  { name: "Ethereum", slug: "ethereum", status: "Live" },
+  { name: "Arc", slug: "arc", status: "Live" },
+];
+
 export const PIPELINE = [
-  { name: "Arc Mainnet", sub: "node · rpc" },
+  { name: "Ethereum · Arc", sub: "node · rpc" },
   { name: "Blocks · Transactions · Logs", sub: "raw" },
   { name: "Protocol Decoding", sub: "abi · events · calls" },
   { name: "Canonical Models", sub: "dex · tokens · lending" },
@@ -757,13 +764,13 @@ export const BUILD_LOG: LogEntry[] = [
 
 export const ARCH_LAYERS = [
   {
-    name: "Arc Node",
+    name: "Chain Nodes",
     kind: "Source",
-    cells: ["JSON-RPC", "WebSocket"],
+    cells: ["Ethereum", "Arc", "JSON-RPC", "WebSocket"],
     detail:
-      "A pinned Arc full node. BlockTrellis reads blocks, receipts and traces over RPC and subscribes to new heads over WebSocket.",
+      "One pinned full node per supported chain — Ethereum and Arc today, more as they're added. BlockTrellis reads blocks, receipts and traces over RPC and subscribes to new heads over WebSocket.",
     status: "Live",
-    stack: "arc-node v1.4",
+    stack: "go-ethereum · arc-node",
   },
   {
     name: "Data Ingestion",
@@ -777,9 +784,9 @@ export const ARCH_LAYERS = [
   {
     name: "Raw Layer",
     kind: "Storage",
-    cells: ["arc.blocks", "arc.transactions", "arc.logs", "arc.traces"],
+    cells: ["ethereum.blocks", "arc.blocks", "ethereum.transactions", "arc.transactions"],
     detail:
-      "Typed, flattened raw tables with no interpretation. Every higher layer is derived from these and can be rebuilt from them.",
+      "Typed, flattened raw tables with no interpretation, namespaced per chain (ethereum.*, arc.*) since raw node responses differ by chain. Every higher layer is derived from these and can be rebuilt from them.",
     status: "Live",
     stack: "ClickHouse MergeTree",
   },
@@ -797,7 +804,7 @@ export const ARCH_LAYERS = [
     kind: "Models",
     cells: ["dex.trades", "stablecoin.transfers", "lending.activities", "token.transfers"],
     detail:
-      "Protocol-specific decoded tables are unioned into domain tables with one schema, keeping tx_hash and log_index for lineage.",
+      "Protocol-specific decoded tables are unioned across chains into one domain table per schema, keeping tx_hash, log_index and a chain column for lineage — adding a chain means a new value in that column, not a new table.",
     status: "Beta",
     stack: "dbt · ClickHouse",
   },

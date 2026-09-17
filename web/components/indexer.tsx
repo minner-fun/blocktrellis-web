@@ -1,49 +1,57 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { INITIAL_INDEXED, INITIAL_LATEST, fmt } from "@/lib/status";
+import { CHAIN_SEED, fmt, type ChainSlug } from "@/lib/status";
 
-type IndexerState = {
-  latest: number;
-  indexed: number;
-  lag: number;
+type ChainState = { latest: number; indexed: number };
+type IndexerState = Record<ChainSlug, ChainState>;
+
+const INITIAL: IndexerState = {
+  ethereum: { ...CHAIN_SEED.ethereum },
+  arc: { ...CHAIN_SEED.arc },
 };
 
-const IndexerContext = createContext<IndexerState>({
-  latest: INITIAL_LATEST,
-  indexed: INITIAL_INDEXED,
-  lag: INITIAL_LATEST - INITIAL_INDEXED,
-});
+const IndexerContext = createContext<IndexerState>(INITIAL);
 
 export function IndexerProvider({ children }: { children: React.ReactNode }) {
-  const [latest, setLatest] = useState(INITIAL_LATEST);
-  const [indexed, setIndexed] = useState(INITIAL_INDEXED);
+  const [state, setState] = useState<IndexerState>(INITIAL);
 
   useEffect(() => {
     const t = setInterval(() => {
-      setLatest((n) => n + 1);
-      setIndexed((n) => (Math.random() < 0.85 ? n + 1 : n));
+      setState((prev) => {
+        const next = {} as IndexerState;
+        (Object.keys(prev) as ChainSlug[]).forEach((chain) => {
+          next[chain] = {
+            latest: prev[chain].latest + 1,
+            indexed: Math.random() < 0.85 ? prev[chain].indexed + 1 : prev[chain].indexed,
+          };
+        });
+        return next;
+      });
     }, 2400);
     return () => clearInterval(t);
   }, []);
 
-  return (
-    <IndexerContext.Provider value={{ latest, indexed, lag: latest - indexed }}>
-      {children}
-    </IndexerContext.Provider>
-  );
+  return <IndexerContext.Provider value={state}>{children}</IndexerContext.Provider>;
 }
 
-export function useIndexer() {
+export function useAllChains() {
   return useContext(IndexerContext);
+}
+
+export function useIndexer(chain: ChainSlug = "arc") {
+  const { latest, indexed } = useContext(IndexerContext)[chain];
+  return { latest, indexed, lag: latest - indexed };
 }
 
 export function LiveNumber({
   which,
+  chain = "arc",
 }: {
   which: "latest" | "indexed" | "lag";
+  chain?: ChainSlug;
 }) {
-  const { latest, indexed, lag } = useIndexer();
+  const { latest, indexed, lag } = useIndexer(chain);
   if (which === "lag") return <>{lag} blocks</>;
   return <>{fmt(which === "indexed" ? indexed : latest)}</>;
 }

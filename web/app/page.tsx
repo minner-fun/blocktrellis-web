@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArcStatusCard, HomePipeline } from "@/components/home-live";
+import { ChainBadges } from "@/components/chain-badges";
+import { ChainsStatusCard, HomePipeline } from "@/components/home-live";
 import { StatusTag } from "@/components/status-tag";
 import { HEADLINE, LAYERS, latestLogPreview } from "@/lib/content";
 
@@ -49,7 +50,7 @@ export default function HomePage() {
                 color: "var(--color-neutral-600)",
               }}
             >
-              <span>Network · Arc Mainnet</span>
+              <span>Networks · Ethereum, Arc</span>
               <span>Coverage · From genesis</span>
               <span>Built in public · 2026</span>
             </div>
@@ -123,18 +124,23 @@ export default function HomePage() {
           }}
         >
           <div>
-            <span className="kicker">First network</span>
+            <span className="kicker">Supported chains</span>
             <h2 className="section-title" style={{ marginBottom: 16 }}>
-              Starting with Arc
+              Ethereum and Arc, with more on the way
             </h2>
-            <p className="body-copy" style={{ maxWidth: "44ch", margin: "0 0 24px" }}>
-              BlockTrellis begins with Arc Mainnet, indexing the network from day one.
+            <p className="body-copy" style={{ maxWidth: "44ch", margin: "0 0 20px" }}>
+              BlockTrellis indexes Ethereum Mainnet and Arc today. The raw layer is namespaced per
+              chain; everything above it — decoded events, canonical tables, the API — is
+              chain-agnostic, so adding a network is additive, not a rewrite.
             </p>
+            <div style={{ marginBottom: 24 }}>
+              <ChainBadges />
+            </div>
             <Link href="/status" style={{ fontSize: 14, fontWeight: 600 }}>
               Network &amp; data status →
             </Link>
           </div>
-          <ArcStatusCard />
+          <ChainsStatusCard />
         </section>
 
         <div className="rule" />

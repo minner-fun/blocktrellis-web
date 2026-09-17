@@ -39,5 +39,11 @@ export function fmt(n: number) {
 
 export const GITHUB_URL = "https://github.com/minner-fun/blocktrellis-web";
 export const API_BASE = "https://api.blocktrellis.com";
-export const INITIAL_LATEST = 2_918_331;
-export const INITIAL_INDEXED = 2_918_329;
+
+// Seed numbers for the client-side "live" block simulation, one per chain.
+export const CHAIN_SEED = {
+  ethereum: { latest: 21_842_119, indexed: 21_842_117 },
+  arc: { latest: 2_918_331, indexed: 2_918_329 },
+} as const;
+
+export type ChainSlug = keyof typeof CHAIN_SEED;

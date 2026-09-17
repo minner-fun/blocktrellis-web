@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { LiveNumber, useIndexer } from "@/components/indexer";
+import { LiveNumber, useAllChains, useIndexer } from "@/components/indexer";
 import { StatusTag } from "@/components/status-tag";
-import { DATASET_PROGRESS, PIPELINE } from "@/lib/content";
+import { CHAINS, DATASET_PROGRESS, PIPELINE } from "@/lib/content";
 import { fmt } from "@/lib/status";
 
 export function HomePipeline() {
@@ -12,7 +11,7 @@ export function HomePipeline() {
   return (
     <div className="panel" style={{ fontFamily: "var(--font-mono)", fontSize: 13 }}>
       <div className="panel-head">
-        <span>pipeline · arc</span>
+        <span>pipeline · multi-chain</span>
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <span className="live-dot" />
           live
@@ -48,24 +47,15 @@ export function HomePipeline() {
           color: "var(--color-neutral-700)",
         }}
       >
-        <span>latest_block</span>
+        <span>latest_block · arc</span>
         <span style={{ color: "var(--color-text)" }}>{fmt(latest)}</span>
       </div>
     </div>
   );
 }
 
-export function ArcStatusCard() {
-  const { latest, indexed, lag } = useIndexer();
-  const stats = [
-    ["Status", "Live"],
-    ["Coverage", "From Genesis"],
-    ["Latest Block", fmt(latest)],
-    ["Indexed Block", fmt(indexed)],
-    ["Indexing Lag", `${lag} blocks`],
-    ["Protocols Indexed", "3"],
-    ["Datasets", "8"],
-  ];
+export function ChainsStatusCard() {
+  const all = useAllChains();
 
   return (
     <div
@@ -78,25 +68,49 @@ export function ArcStatusCard() {
       }}
     >
       <div style={{ padding: 20, borderRight: "1px solid var(--color-divider)" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 16,
-          }}
-        >
-          <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 17 }}>
-            Arc Mainnet
-          </span>
-          <StatusTag status="Live" />
+        <div className="kicker-muted" style={{ marginBottom: 16, lineHeight: "26px" }}>
+          Networks
         </div>
-        {stats.map(([k, v]) => (
-          <div key={k} className="stat-row">
-            <span style={{ color: "var(--color-neutral-700)" }}>{k}</span>
-            <span className="mono">{v}</span>
-          </div>
-        ))}
+        {CHAINS.map((c) => {
+          const s = all[c.slug];
+          const lag = s.latest - s.indexed;
+          return (
+            <div
+              key={c.slug}
+              style={{ padding: "12px 0", borderTop: "1px solid var(--color-divider)" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 8,
+                }}
+              >
+                <span style={{ fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 15 }}>
+                  {c.name}
+                </span>
+                <StatusTag status={c.status} />
+              </div>
+              <div className="stat-row">
+                <span style={{ color: "var(--color-neutral-700)" }}>Latest block</span>
+                <span className="mono">{fmt(s.latest)}</span>
+              </div>
+              <div className="stat-row">
+                <span style={{ color: "var(--color-neutral-700)" }}>Lag</span>
+                <span className="mono">{lag} blocks</span>
+              </div>
+            </div>
+          );
+        })}
+        <div className="stat-row" style={{ paddingTop: 12, borderTop: "1px solid var(--color-divider)" }}>
+          <span style={{ color: "var(--color-neutral-700)" }}>Protocols Indexed</span>
+          <span className="mono">3</span>
+        </div>
+        <div className="stat-row">
+          <span style={{ color: "var(--color-neutral-700)" }}>Datasets</span>
+          <span className="mono">8</span>
+        </div>
       </div>
       <div style={{ padding: 20 }}>
         <div className="kicker-muted" style={{ marginBottom: 16, lineHeight: "26px" }}>
