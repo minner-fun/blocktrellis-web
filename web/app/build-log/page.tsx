@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function BuildLogPage() {
-  return <BuildLogView id="003" />;
+  return <BuildLogView id="001" />;
 }

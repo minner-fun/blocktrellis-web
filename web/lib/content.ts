@@ -723,118 +723,6 @@ export const BUILD_LOG: LogEntry[] = [
   {
     id: "001",
     n: "#001",
-    title: "Why I Started BlockTrellis",
-    date: "2026-03-02",
-    status: "Published",
-    body: [
-      "A public statement of the project: a blockchain data engineering platform, starting with Arc Mainnet, built in the open.",
-      "Most chain data products skip from RPC to a dashboard. The missing work is the part in between — decoding, canonical models, and the ability to explain a number.",
-      "A small pipeline with a documented raw layer, rather than a warehouse of unnamed JSON.",
-      "This log, a genesis indexer, and a rule that unfinished work is labeled Building or Coming Soon instead of hidden.",
-      "The urge to describe the future product instead of the current tables.",
-      "Raw data is easy to collect. Meaning is harder. That sentence is the product.",
-      "Indexing Arc from genesis (#002).",
-    ],
-  },
-  {
-    id: "002",
-    n: "#002",
-    title: "Indexing Arc from Genesis",
-    date: "2026-03-19",
-    status: "Published",
-    body: [
-      "A backfill from block 0 to head, and a live tail that follows new blocks with a two-block lag.",
-      "Coverage from genesis is what makes the datasets trustworthy for research.",
-      "Two workers: a range backfiller and a head follower sharing one write path.",
-      "Rate-limited RPC with adaptive batch sizing; checkpoint every 1,000 blocks.",
-      "RPC providers return inconsistent trace formats between versions.",
-      "Pin the node version and record it in the lineage table.",
-      "Design the raw layer schema (#003).",
-    ],
-  },
-  {
-    id: "003",
-    n: "#003",
-    title: "Designing the Raw Data Layer",
-    date: "2026-04-08",
-    status: "Published",
-    body: [
-      "A raw layer of four tables — arc.blocks, arc.transactions, arc.logs, arc.traces — written straight from node RPC with no interpretation.",
-      "Everything above depends on it. If raw is lossy or reorders fields, every decoder inherits the bug.",
-      "Node → fetcher → batch writer → ClickHouse MergeTree, partitioned by block range, ordered by (block_number, tx_index).",
-      "Batches of 200 blocks; each batch is a single insert keyed by block hash so retries are safe.",
-      "Traces are 30× the size of logs. First schema stored them as JSON strings and queries were unusable.",
-      "Flatten early. Typed columns beat JSON blobs for anything that gets queried more than once.",
-      "Token transfers as the first derived table (#004).",
-    ],
-  },
-  {
-    id: "004",
-    n: "#004",
-    title: "Parsing ERC-20 Transfers",
-    date: "2026-05-03",
-    status: "Published",
-    body: [
-      "token.transfers: a canonical ERC-20 Transfer table with scaled amounts, sourced from arc.logs.",
-      "It is the first derived dataset and the template for every later canonical table — lineage keys, no mutation of raw, rebuildable by block range.",
-      "Decoder matches Transfer(topic0), reads decimals from a token registry, writes amount_raw and amount.",
-      "Tokens with missing decimals stay as amount_raw only; we do not guess 18.",
-      "A handful of non-standard Transfer events (indexed value, missing to) failed ABI decode and were dropped until we added a fallback path.",
-      "Canonical tables should degrade to raw fields rather than invent values. Null is better than 18.",
-      "The first protocol decoder, starting with Uniswap V3 (#006), after a canonical-dataset write-up (#005).",
-    ],
-  },
-  {
-    id: "005",
-    n: "#005",
-    title: "Building the First Canonical Dataset",
-    date: "2026-06-11",
-    status: "Published",
-    body: [
-      "A written convention for canonical tables: domain namespace, protocol column, (tx_hash, log_index) uniqueness, rebuild-from-raw.",
-      "Without the convention, every decoder invents a slightly different trade table and nothing unions cleanly.",
-      "dbt models over decoded tables, incremental on block_number, tested for uniqueness and not-null lineage keys.",
-      "token.transfers was rewritten against the convention so it would not be a special case.",
-      "The first draft had both token_address and contract_address. Two names for one thing is how silos start.",
-      "Name the thing once. Put protocol-specific extras on the protocol table.",
-      "Uniswap protocol decoding (#006).",
-    ],
-  },
-  {
-    id: "006",
-    n: "#006",
-    title: "Adding Uniswap Protocol Decoding",
-    date: "2026-08-20",
-    status: "Building",
-    body: null,
-  },
-  {
-    id: "007",
-    n: "#007",
-    title: "Handling Chain Reorgs",
-    date: "—",
-    status: "Planned",
-    body: null,
-  },
-  {
-    id: "008",
-    n: "#008",
-    title: "Introducing Entity Attribution",
-    date: "—",
-    status: "Planned",
-    body: null,
-  },
-  {
-    id: "009",
-    n: "#009",
-    title: "Classifying Stablecoin Activity",
-    date: "—",
-    status: "Planned",
-    body: null,
-  },
-  {
-    id: "010",
-    n: "#010",
     title: "Scoping the Real Build: Ethereum and Arc",
     date: "2026-09-17",
     status: "Published",
@@ -1095,7 +983,7 @@ export function articleBySlug(parent: "Research" | "Engineering", slug: string) 
 }
 
 export function logById(id: string) {
-  return BUILD_LOG.find((l) => l.id === id) ?? BUILD_LOG[2];
+  return BUILD_LOG.find((l) => l.id === id) ?? BUILD_LOG[0];
 }
 
 export function latestLogPreview() {
