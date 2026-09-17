@@ -48,7 +48,7 @@ const JSON_LD = {
       name: "BlockTrellis",
       url: "https://blocktrellis.com",
       logo: "https://blocktrellis.com/logo.png",
-      sameAs: ["https://github.com/blocktrellis"],
+      sameAs: ["https://github.com/minner-fun/blocktrellis-web"],
     },
     {
       "@type": "WebSite",
