@@ -1,4 +1,4 @@
-# ChainForge
+# BlockTrellis
 
 From raw blockchain data to structured onchain intelligence.
 

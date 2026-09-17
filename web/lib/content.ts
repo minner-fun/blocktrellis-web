@@ -723,7 +723,7 @@ export const BUILD_LOG: LogEntry[] = [
   {
     id: "001",
     n: "#001",
-    title: "Why I Started ChainForge",
+    title: "Why I Started BlockTrellis",
     date: "2026-03-02",
     status: "Published",
     body: [
@@ -840,7 +840,7 @@ export const ARCH_LAYERS = [
     kind: "Source",
     cells: ["JSON-RPC", "WebSocket"],
     detail:
-      "A pinned Arc full node. ChainForge reads blocks, receipts and traces over RPC and subscribes to new heads over WebSocket.",
+      "A pinned Arc full node. BlockTrellis reads blocks, receipts and traces over RPC and subscribes to new heads over WebSocket.",
     status: "Live",
     stack: "arc-node v1.4",
   },

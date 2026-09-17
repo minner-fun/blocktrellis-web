@@ -31,7 +31,7 @@ export function ApiExplorer() {
 }`;
   }, [ep, indexed, current.json]);
 
-  const curl = `curl ${API_BASE}${current.path.replace(/\{(\w+)\}/g, "<$1>")} \\\n  -H "Authorization: Bearer $CHAINFORGE_KEY"`;
+  const curl = `curl ${API_BASE}${current.path.replace(/\{(\w+)\}/g, "<$1>")} \\\n  -H "Authorization: Bearer $BLOCKTRELLIS_KEY"`;
   const params =
     current.params.length > 0
       ? current.params

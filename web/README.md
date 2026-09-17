@@ -1,6 +1,6 @@
-# ChainForge
+# BlockTrellis
 
-Website for [chainforge.cn](https://chainforge.cn) — a blockchain data engineering platform that turns raw Arc Mainnet data into canonical datasets.
+Website for [blocktrellis.com](https://blocktrellis.com) — a blockchain data engineering platform that turns raw Arc Mainnet data into canonical datasets.
 
 ```bash
 npm install

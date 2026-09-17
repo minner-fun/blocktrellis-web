@@ -37,7 +37,7 @@ export function fmt(n: number) {
   return n.toLocaleString("en-US");
 }
 
-export const GITHUB_URL = "https://github.com/chainforge";
-export const API_BASE = "https://api.chainforge.cn";
+export const GITHUB_URL = "https://github.com/blocktrellis";
+export const API_BASE = "https://api.blocktrellis.com";
 export const INITIAL_LATEST = 2_918_331;
 export const INITIAL_INDEXED = 2_918_329;

@@ -3,7 +3,7 @@ import { DocsShell } from "./docs-shell";
 
 export const metadata: Metadata = {
   title: "Docs",
-  description: "Developer documentation for the ChainForge data platform.",
+  description: "Developer documentation for the BlockTrellis data platform.",
   alternates: { canonical: "/docs/" },
 };
 

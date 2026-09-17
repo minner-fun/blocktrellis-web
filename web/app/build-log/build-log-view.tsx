@@ -24,7 +24,7 @@ export function BuildLogView({ id }: { id: string }) {
         Build Log
       </h1>
       <p className="lede" style={{ margin: "0 0 40px" }}>
-        Building ChainForge in public.
+        Building BlockTrellis in public.
       </p>
       <div
         data-stack="1"

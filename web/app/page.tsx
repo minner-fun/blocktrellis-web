@@ -27,7 +27,7 @@ export default function HomePage() {
           <div>
             <h1 className="hero-title">{HEADLINE}</h1>
             <p style={{ fontSize: 17, lineHeight: "28px", maxWidth: "56ch", margin: "32px 0 0" }}>
-              ChainForge indexes, decodes and models blockchain data into reliable datasets for
+              BlockTrellis indexes, decodes and models blockchain data into reliable datasets for
               developers, analysts and researchers.
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 28 }}>
@@ -60,7 +60,7 @@ export default function HomePage() {
         <div className="rule" />
 
         <section style={{ padding: "72px 0" }}>
-          <span className="kicker">What ChainForge does</span>
+          <span className="kicker">What BlockTrellis does</span>
           <h2 className="section-title" style={{ marginBottom: 24 }}>
             From chain data to usable data
           </h2>
@@ -128,7 +128,7 @@ export default function HomePage() {
               Starting with Arc
             </h2>
             <p className="body-copy" style={{ maxWidth: "44ch", margin: "0 0 24px" }}>
-              ChainForge begins with Arc Mainnet, indexing the network from day one.
+              BlockTrellis begins with Arc Mainnet, indexing the network from day one.
             </p>
             <Link href="/status" style={{ fontSize: 14, fontWeight: 600 }}>
               Network &amp; data status →
@@ -152,7 +152,7 @@ export default function HomePage() {
           >
             <div>
               <span className="kicker">Build log</span>
-              <h2 className="section-title">Building ChainForge in Public</h2>
+              <h2 className="section-title">Building BlockTrellis in Public</h2>
             </div>
             <Link href="/build-log" style={{ fontSize: 14, fontWeight: 600 }}>
               View Build Log →

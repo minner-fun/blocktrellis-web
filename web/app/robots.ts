@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://chainforge.cn/sitemap.xml",
+    sitemap: "https://blocktrellis.com/sitemap.xml",
   };
 }

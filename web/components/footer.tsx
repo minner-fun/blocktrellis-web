@@ -30,10 +30,10 @@ export function Footer() {
             }}
           >
             <LogoMark />
-            ChainForge
+            BlockTrellis
           </div>
           <div style={{ color: "var(--color-neutral-700)", maxWidth: "32ch" }}>
-            From raw blockchain data to structured onchain intelligence. chainforge.cn
+            From raw blockchain data to structured onchain intelligence. blocktrellis.com
           </div>
         </div>
         <div style={{ display: "grid", gap: 8, alignContent: "start" }}>

@@ -21,21 +21,21 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "ChainForge",
-    template: "%s · ChainForge",
+    default: "BlockTrellis",
+    template: "%s · BlockTrellis",
   },
   description:
-    "From raw blockchain data to structured onchain intelligence. ChainForge indexes, decodes and models blockchain data into reliable datasets for developers, analysts and researchers.",
-  metadataBase: new URL("https://chainforge.cn"),
+    "From raw blockchain data to structured onchain intelligence. BlockTrellis indexes, decodes and models blockchain data into reliable datasets for developers, analysts and researchers.",
+  metadataBase: new URL("https://blocktrellis.com"),
   openGraph: {
-    title: "ChainForge",
+    title: "BlockTrellis",
     description: "From raw blockchain data to structured onchain intelligence.",
-    siteName: "ChainForge",
+    siteName: "BlockTrellis",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ChainForge",
+    title: "BlockTrellis",
     description: "From raw blockchain data to structured onchain intelligence.",
   },
 };
@@ -45,15 +45,15 @@ const JSON_LD = {
   "@graph": [
     {
       "@type": "Organization",
-      name: "ChainForge",
-      url: "https://chainforge.cn",
-      logo: "https://chainforge.cn/logo.png",
-      sameAs: ["https://github.com/chainforge"],
+      name: "BlockTrellis",
+      url: "https://blocktrellis.com",
+      logo: "https://blocktrellis.com/logo.png",
+      sameAs: ["https://github.com/blocktrellis"],
     },
     {
       "@type": "WebSite",
-      name: "ChainForge",
-      url: "https://chainforge.cn",
+      name: "BlockTrellis",
+      url: "https://blocktrellis.com",
     },
   ],
 };

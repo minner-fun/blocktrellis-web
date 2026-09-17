@@ -23,7 +23,7 @@ export function Header() {
       <nav className="nav-bar">
         <Link href="/" className="nav-brand" onClick={() => setOpen(false)}>
           <Logo />
-          ChainForge
+          BlockTrellis
         </Link>
         <div className="nav-links" data-navlinks="1">
           {NAV.map((item) => (

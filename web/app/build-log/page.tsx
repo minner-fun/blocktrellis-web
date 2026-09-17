@@ -3,7 +3,7 @@ import { BuildLogView } from "./build-log-view";
 
 export const metadata: Metadata = {
   title: "Build Log",
-  description: "Building ChainForge in public.",
+  description: "Building BlockTrellis in public.",
   alternates: { canonical: "/build-log/" },
 };
 

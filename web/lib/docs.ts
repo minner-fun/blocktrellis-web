@@ -80,8 +80,8 @@ export const DOCS: Record<string, DocPage> = {
   introduction: {
     key: "introduction",
     section: "Introduction",
-    title: "ChainForge",
-    lead: "ChainForge is a blockchain data engineering platform that transforms raw onchain data into canonical datasets, semantic activities and explainable onchain intelligence.",
+    title: "BlockTrellis",
+    lead: "BlockTrellis is a blockchain data engineering platform that transforms raw onchain data into canonical datasets, semantic activities and explainable onchain intelligence.",
     blocks: [
       h("What this is"),
       p("The first supported network is Arc Mainnet, indexed from genesis. The public surface today is a small set of live tables, an API that reads them, and the engineering notes that explain how they were built."),
@@ -98,10 +98,10 @@ export const DOCS: Record<string, DocPage> = {
     lead: "Read your first block from Arc Mainnet in under a minute, then query the same data with SQL.",
     blocks: [
       h("1. Get an API key"),
-      p("Keys are free while ChainForge is in beta. Every request is authenticated with a bearer token."),
+      p("Keys are free while BlockTrellis is in beta. Every request is authenticated with a bearer token."),
       code(
-        `curl https://api.chainforge.cn/v1/arc/blocks/latest \\
-  -H "Authorization: Bearer $CHAINFORGE_KEY"`,
+        `curl https://api.blocktrellis.com/v1/arc/blocks/latest \\
+  -H "Authorization: Bearer $BLOCKTRELLIS_KEY"`,
         "bash",
       ),
       h("2. Read the response"),
@@ -136,7 +136,7 @@ GROUP BY hour ORDER BY hour;`,
     key: "authentication",
     section: "Getting Started",
     title: "Authentication",
-    lead: "Every request to api.chainforge.cn carries a bearer token. There is no unauthenticated path, including health checks that return dataset metadata.",
+    lead: "Every request to api.blocktrellis.com carries a bearer token. There is no unauthenticated path, including health checks that return dataset metadata.",
     blocks: [
       h("Header"),
       code(`Authorization: Bearer cf_live_…`, "http"),
@@ -169,7 +169,7 @@ X-RateLimit-Reset: 1726400000`,
     key: "data-model",
     section: "Data",
     title: "Data Model",
-    lead: "ChainForge separates raw, decoded, canonical and semantic tables. Each layer is derived from the one below it and never mutates it.",
+    lead: "BlockTrellis separates raw, decoded, canonical and semantic tables. Each layer is derived from the one below it and never mutates it.",
     blocks: [
       h("Layers"),
       code(
@@ -265,7 +265,7 @@ LIMIT 20;`,
     lead: "The REST API is a thin reader over the same tables the SQL engine uses. Field names match the dataset schema. There is no parallel “API shape.”",
     blocks: [
       h("Base URL"),
-      code("https://api.chainforge.cn", "text"),
+      code("https://api.blocktrellis.com", "text"),
       h("Conventions"),
       p("JSON only. Pagination uses a cursor, not offset. Timestamps are ISO-8601 UTC. Hashes are 0x-prefixed. Null means unknown or not applicable, never a sentinel string."),
       h("Versioning"),
@@ -441,7 +441,7 @@ WHERE status = 0 AND block_number > 2910000;`,
     key: "reorg-handling",
     section: "Infrastructure",
     title: "Reorg Handling",
-    lead: "Arc can reorganise its most recent blocks. ChainForge indexes to the head with a two-block lag and repairs any block whose hash changes.",
+    lead: "Arc can reorganise its most recent blocks. BlockTrellis indexes to the head with a two-block lag and repairs any block whose hash changes.",
     blocks: [
       h("Detection"),
       p("On every new block, the indexer compares the parent hash with the stored hash at height − 1. A mismatch marks a reorg starting at the deepest divergent height."),

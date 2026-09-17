@@ -7,7 +7,7 @@ import { GITHUB_URL } from "@/lib/status";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "ChainForge is an independent blockchain data engineering project, started in 2026 with Arc Mainnet and built in public.",
+    "BlockTrellis is an independent blockchain data engineering project, started in 2026 with Arc Mainnet and built in public.",
   alternates: { canonical: "/about/" },
 };
 
@@ -36,7 +36,7 @@ export default function AboutPage() {
               fontWeight: 600,
             }}
           >
-            ChainForge is an independent blockchain data engineering project focused on understanding
+            BlockTrellis is an independent blockchain data engineering project focused on understanding
             how raw blockchain data becomes reliable, reusable and meaningful datasets.
           </p>
           <p className="lede" style={{ margin: "0 0 40px" }}>

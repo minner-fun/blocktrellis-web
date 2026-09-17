@@ -4,7 +4,7 @@ import { allDocKeys } from "@/lib/docs";
 
 export const dynamic = "force-static";
 
-const BASE_URL = "https://chainforge.cn";
+const BASE_URL = "https://blocktrellis.com";
 
 const STATIC_ROUTES = [
   "/",

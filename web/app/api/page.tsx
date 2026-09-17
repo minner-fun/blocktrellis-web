@@ -3,7 +3,7 @@ import { ApiExplorer } from "./api-explorer";
 
 export const metadata: Metadata = {
   title: "API",
-  description: "REST API reference for ChainForge datasets.",
+  description: "REST API reference for BlockTrellis datasets.",
   alternates: { canonical: "/api/" },
 };
 
