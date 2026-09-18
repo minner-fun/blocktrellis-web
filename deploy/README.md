@@ -4,7 +4,7 @@ us-2c2g already terminates HTTPS in the Aurora Caddy container (`aurora-web-1`, 
 
 Do not bind UDP 443; s-ui already owns it.
 
-> **chainforge.cn**: the old domain for this project. It's being handed off to a different, unrelated site, so its Caddy block, `/root/chainforge/site` and the mount into `aurora-web-1` are left alone on purpose — this repo no longer deploys to it. Don't reuse `deploy/caddy.chainforge.caddy`-shaped changes here; that domain isn't ours to manage anymore.
+> **chainforge.cn**: the old domain for this project. As of 2026-09-18 it's offline on purpose — its Caddy site block was removed from `~/aurora/Caddyfile` (backed up alongside the other timestamped `Caddyfile.bak.*` files there) so the domain no longer resolves to a working site. DNS still points at `104.168.34.97`, `/root/chainforge/site` and the `aurora-web-1` volume mount are untouched, so re-adding the block from a `Caddyfile.bak.*` is enough to bring the old static content back if needed. It's being handed off to a different, unrelated site eventually — this repo no longer deploys to it, and `deploy/caddy.chainforge.caddy`-shaped changes don't belong here anymore.
 
 ## One-time DNS (Cloudflare, gray cloud)
 
