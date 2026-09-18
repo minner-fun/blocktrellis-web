@@ -16,18 +16,22 @@ function hex(n: number) {
 }
 
 export function ApiExplorer() {
-  const { indexed } = useIndexer();
+  const { indexed } = useIndexer("ethereum");
   const [ep, setEp] = useState(0);
   const current = ENDPOINTS[ep];
 
   const json = useMemo(() => {
     if (ep !== 0) return current.json;
     return `{
-  "block_number": ${indexed},
-  "block_hash": "0x${hex(indexed)}…",
+  "chain_id": 1,
+  "number": ${indexed},
+  "hash": "0x${hex(indexed)}…",
+  "parent_hash": "0x${hex(indexed - 1)}…",
   "timestamp": "2026-09-15T08:41:02Z",
+  "miner": "0x4838…d5f97",
+  "gas_limit": 60000000,
   "gas_used": 14820331,
-  "transaction_count": 67
+  "base_fee_per_gas": "175759232"
 }`;
   }, [ep, indexed, current.json]);
 

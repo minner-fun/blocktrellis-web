@@ -894,109 +894,144 @@ export type Endpoint = {
 export const ENDPOINTS: Endpoint[] = [
   {
     method: "GET",
-    path: "/v1/arc/blocks/latest",
+    path: "/v1/ethereum/blocks/latest",
     title: "Latest block",
-    desc: "Returns the most recently indexed block on Arc Mainnet. Lags the chain head by two blocks to avoid serving data that may be reorganised.",
+    desc: "Returns the most recently ingested Ethereum Mainnet block from raw.raw_blocks.",
     params: [],
     json: `{
-  "block_number": 2918329,
-  "block_hash": "0x7f3a…c21e",
-  "timestamp": "2026-09-15T08:41:02Z",
-  "gas_used": 14820331,
-  "transaction_count": 67
+  "chain_id": 1,
+  "number": 25996610,
+  "hash": "0x325b…4a01b",
+  "parent_hash": "0xf78f…94b4b",
+  "timestamp": "2026-09-17T10:27:47Z",
+  "miner": "0x4838…d5f97",
+  "gas_limit": 60000000,
+  "gas_used": 25942666,
+  "base_fee_per_gas": "175759232"
 }`,
   },
   {
     method: "GET",
-    path: "/v1/arc/blocks/{height}",
-    title: "Block by height",
-    desc: "Returns a single block by its height.",
-    params: [
-      { n: "height", t: "integer", req: "required", d: "Block number, 0 = genesis" },
-    ],
+    path: "/v1/ethereum/blocks/{number}",
+    title: "Block by number",
+    desc: "Returns a single block by its number. 404 if that number isn't in the ingested range — check /v1/ethereum/status for coverage.",
+    params: [{ n: "number", t: "integer", req: "required", d: "Block number" }],
     json: `{
-  "block_number": 1000000,
-  "block_hash": "0x2b91…4e0a",
-  "timestamp": "2026-05-30T14:02:11Z",
-  "gas_used": 9120044,
-  "transaction_count": 41
+  "chain_id": 1,
+  "number": 25964547,
+  "hash": "0x9ed3…fa7416",
+  "parent_hash": "0x1a2b…9c8d0e",
+  "timestamp": "2026-09-12T23:24:11Z",
+  "miner": "0xdafe…7a91b2",
+  "gas_limit": 60000000,
+  "gas_used": 18220441,
+  "base_fee_per_gas": "412009812"
 }`,
   },
   {
     method: "GET",
-    path: "/v1/arc/transactions/{hash}",
-    title: "Transaction by hash",
-    desc: "Returns a transaction with its receipt status and decoded logs where a decoder exists.",
+    path: "/v1/ethereum/swaps",
+    title: "Swaps",
+    desc: "Lists decoded Uniswap V3 Swap events from decoded.uniswap_v3_swaps, newest first.",
     params: [
-      { n: "hash", t: "string", req: "required", d: "0x-prefixed transaction hash" },
-      {
-        n: "include_logs",
-        t: "boolean",
-        req: "optional",
-        d: "Attach raw and decoded logs (default false)",
-      },
-    ],
-    json: `{
-  "tx_hash": "0x9ac1…77d3",
-  "block_number": 2918200,
-  "from_address": "0x4f2a…",
-  "to_address": "0xa0b8…",
-  "value": "0",
-  "status": 1,
-  "logs": []
-}`,
-  },
-  {
-    method: "GET",
-    path: "/v1/arc/address/{address}",
-    title: "Address summary",
-    desc: "Returns balances, first and last activity and — once the semantic layer ships — the attributed entity.",
-    params: [{ n: "address", t: "string", req: "required", d: "0x-prefixed address" }],
-    json: `{
-  "address": "0x4f2a…",
-  "first_seen_block": 12,
-  "last_seen_block": 2918290,
-  "tx_count": 18432,
-  "entity": null
-}`,
-  },
-  {
-    method: "GET",
-    path: "/v1/arc/token-transfers",
-    title: "Token transfers",
-    desc: "Lists normalized ERC-20 transfers, filterable by token, address and block range.",
-    params: [
-      { n: "token", t: "string", req: "optional", d: "Token contract address" },
-      { n: "address", t: "string", req: "optional", d: "Match from or to" },
+      { n: "pool", t: "string", req: "optional", d: "Filter to one pool address" },
       { n: "from_block", t: "integer", req: "optional", d: "Inclusive lower bound" },
+      { n: "to_block", t: "integer", req: "optional", d: "Inclusive upper bound" },
+      { n: "cursor", t: "string", req: "optional", d: "From the previous page's next_cursor" },
       { n: "limit", t: "integer", req: "optional", d: "Max 1000 (default 100)" },
     ],
     json: `{
   "data": [
     {
-      "token_address": "0xd9e1…",
-      "from_address": "0x4f2a…",
-      "to_address": "0x88c0…",
-      "amount": "2500.000000",
-      "block_number": 2918290
+      "chain_id": 1,
+      "block_number": 25996610,
+      "transaction_hash": "0x2088…597d0",
+      "log_index": 700,
+      "pool_address": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+      "sender": "0x6747…facb5",
+      "recipient": "0x8fea…31b4f6",
+      "amount0": "1077169526",
+      "amount1": "-442796209816345154",
+      "sqrt_price_x96": "1606745234950281372979920973544052",
+      "liquidity": "4381227568250919082",
+      "tick": 198357
     }
   ],
-  "next_cursor": "eyJiIjoyOTE4Mjkw…"
+  "next_cursor": "25996610:67"
 }`,
   },
   {
     method: "GET",
-    path: "/v1/dex/trades",
-    title: "DEX trades",
-    desc: "Canonical swaps across all decoded DEX protocols. Building — returns 501 until dex.trades is live.",
+    path: "/v1/ethereum/swaps/{transaction_hash}",
+    title: "Swaps by transaction",
+    desc: "Returns every decoded Swap log in one transaction, ordered by log_index — more than one row for a multi-hop route.",
     params: [
-      { n: "protocol", t: "string", req: "optional", d: "e.g. uniswap_v3" },
-      { n: "pool", t: "string", req: "optional", d: "Pool address" },
+      { n: "transaction_hash", t: "string", req: "required", d: "0x-prefixed transaction hash" },
+    ],
+    json: `[
+  {
+    "chain_id": 1,
+    "block_number": 25996610,
+    "transaction_hash": "0x2088…597d0",
+    "log_index": 700,
+    "pool_address": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+    "sender": "0x6747…facb5",
+    "recipient": "0x8fea…31b4f6",
+    "amount0": "1077169526",
+    "amount1": "-442796209816345154",
+    "sqrt_price_x96": "1606745234950281372979920973544052",
+    "liquidity": "4381227568250919082",
+    "tick": 198357
+  }
+]`,
+  },
+  {
+    method: "GET",
+    path: "/v1/ethereum/pools",
+    title: "Pools",
+    desc: "Lists Uniswap V3 pools discovered from Swap logs, from raw.uniswap_v3_pools.",
+    params: [
+      { n: "token", t: "string", req: "optional", d: "Match token0 or token1" },
+      { n: "cursor", t: "string", req: "optional", d: "The last pool_address from the previous page" },
+      { n: "limit", t: "integer", req: "optional", d: "Max 1000 (default 100)" },
     ],
     json: `{
-  "error": "not_implemented",
-  "message": "dex.trades is building. Track progress at /status.",
-  "status": 501
+  "data": [
+    {
+      "chain_id": 1,
+      "pool_address": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640",
+      "token0": "0xa0b8…6eb48",
+      "token1": "0xc02a…56cc2",
+      "fee": 500,
+      "tick_spacing": 10,
+      "factory": "0x1f98431c8ad98523631ae4a59f267346ea31f984",
+      "created_block": null
+    }
+  ],
+  "next_cursor": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"
+}`,
+  },
+  {
+    method: "GET",
+    path: "/v1/ethereum/status",
+    title: "Sync status",
+    desc: "Returns each ingestion pipeline's last processed block, for both the bounded full-fidelity track and the continuous swap-only track.",
+    params: [],
+    json: `{
+  "chain": "ethereum",
+  "chain_id": 1,
+  "pipelines": [
+    {
+      "pipeline": "track_a_full_fidelity",
+      "last_processed_block": 25964547,
+      "updated_at": "2026-09-12T23:27:44Z"
+    },
+    {
+      "pipeline": "track_b_uniswap_v3_swaps",
+      "last_processed_block": 25996611,
+      "updated_at": "2026-09-17T10:30:42Z"
+    }
+  ]
 }`,
   },
 ];
